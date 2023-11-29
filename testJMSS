@@ -1,0 +1,85 @@
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class JewelryManagementSystemTest {
+
+    @Test
+    public void testCreateCustomer() {
+        Customer customer = new Customer("John Doe", "john@example.com", "1234567890");
+        Assert.assertEquals(customer.getName(), "John Doe");
+        Assert.assertEquals(customer.getEmail(), "john@example.com");
+        Assert.assertEquals(customer.getPhoneNumber(), "1234567890");
+    }
+
+    @Test
+    public void testCreateProduct() {
+        Product product = new Product("Diamond Ring", "DR001", "White gold ring with a diamond", 500.0);
+        Assert.assertEquals(product.getName(), "Diamond Ring");
+        Assert.assertEquals(product.getCode(), "DR001");
+        Assert.assertEquals(product.getDescription(), "White gold ring with a diamond");
+        Assert.assertEquals(product.getPrice(), 500.0);
+    }
+
+    @Test
+    public void testPlaceOrder() {
+        Customer customer = new Customer("Jane Smith", "jane@example.com", "9876543210");
+        Product product = new Product("Sapphire Necklace", "SN002", "Beautiful sapphire necklace", 800.0);
+        OrderItem orderItem = new OrderItem(product, 2);
+        Order order = new Order(customer, orderItem);
+        Assert.assertEquals(order.getTotalAmount(), 1600.0);
+        Assert.assertEquals(order.getOrderItems().size(), 1);
+        Assert.assertEquals(order.getOrderItems().get(0), orderItem);
+    }
+
+   
+
+
+
+    @Test
+    public void testAddProductToCatalog() {
+        Catalog catalog = new Catalog();
+        Product product = new Product("Emerald Earrings", "EE003", "Beautiful emerald earrings", 300.0);
+        catalog.addProduct(product);
+        Assert.assertTrue(catalog.getProducts().contains(product));
+    }
+
+    @Test
+    public void testApplyDiscountToOrder() {
+        Customer customer = new Customer("Alice Johnson", "alice@example.com", "5551234567");
+        Product product = new Product("Ruby Bracelet", "RB004", "Stunning ruby bracelet", 400.0);
+        OrderItem orderItem = new OrderItem(product, 1);
+        Order order = new Order(customer, orderItem);
+        
+        // Apply a 10% discount
+        Discount discount = new Discount("SALE2023", 10.0);
+        order.applyDiscount(discount);
+        
+        Assert.assertEquals(order.getTotalAmount(), 360.0);
+    }
+
+    @Test
+    public void testAddPaymentDetailsToOrder() {
+        Customer customer = new Customer("Bob Miller", "bob@example.com", "9876543210");
+        Product product = new Product("Gold Chain", "GC005", "Classic gold chain", 600.0);
+        OrderItem orderItem = new OrderItem(product, 1);
+        Order order = new Order(customer, orderItem);
+        
+        PaymentDetails paymentDetails = new PaymentDetails("Visa", "**** **** **** 1234", "12/25", "John Doe");
+        order.setPaymentDetails(paymentDetails);
+        
+        Assert.assertEquals(order.getPaymentDetails(), paymentDetails);
+    }
+
+    @Test
+    public void testAddOrderFeedback() {
+        Customer customer = new Customer("Charlie Brown", "charlie@example.com", "1112223333");
+        Product product = new Product("Pearl Necklace", "PN006", "Elegant pearl necklace", 250.0);
+        OrderItem orderItem = new OrderItem(product, 1);
+        Order order = new Order(customer, orderItem);
+        
+        OrderFeedback feedback = new OrderFeedback("Great product and service!", 5);
+        order.addFeedback(feedback);
+        
+        Assert.assertTrue(order.getFeedbacks().contains(feedback));
+    }
+}
